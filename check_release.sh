@@ -17,8 +17,8 @@ mkdir -p "$DOWNLOAD_DIR"
 
 while true; do
     # Récupérer la dernière version publiée
-    LATEST_VERSION=$(curl -s https://api.github.com/$REPO/releases/latest | jq -r '.tag_name')
-
+    LATEST_VERSION=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
+    echo "Latest => "$LATEST_VERSION
     # Lire la dernière version connue
     if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" == "null" ]; then
         echo "Erreur : Impossible de récupérer la dernière version. Vérification ignorée."
