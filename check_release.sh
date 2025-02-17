@@ -20,11 +20,20 @@ while true; do
     LATEST_VERSION=$(curl -s https://api.github.com/$REPO/releases/latest | jq -r '.tag_name')
 
     # Lire la dernière version connue
+    if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" == "null" ]; then
+        echo "Erreur : Impossible de récupérer la dernière version. Vérification ignorée."
+        sleep 15
+        continue
+    fi
+
     if [ -f "$VERSION_FILE" ]; then
-        KNOWN_VERSION=$(cat "$VERSION_FILE")
+        KNOWN_VERSION=$(cat "$VERSION_FILE" | tr -d ' \n')
     else
         KNOWN_VERSION=""
     fi
+
+    # Log pour voir les valeurs comparées
+    echo "Dernière version connue: $KNOWN_VERSION | Dernière version en ligne: $LATEST_VERSION"
 
     # Comparer les versions
     if [ "$LATEST_VERSION" != "$KNOWN_VERSION" ]; then
