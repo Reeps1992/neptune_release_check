@@ -12,13 +12,12 @@ DOWNLOAD_DIR="/home/user/neptune/neptune-cash-x86_64-unknown-linux-gnu"
 # Nom du screen pour exécuter Neptune
 SCREEN_NAME="neptune"
 
-# Créer le dossier de téléchargement si il n'existe pas
-mkdir -p "$DOWNLOAD_DIR"
+apt install jq curl
 
 while true; do
     # Récupérer la dernière version publiée
     LATEST_VERSION=$(curl -s https://api.github.com/repos/$REPO/releases/latest | jq -r '.tag_name')
-    echo "Latest => "$LATEST_VERSION
+    echo "Latest => $LATEST_VERSION from https://api.github.com/repos/$REPO/releases/latest"
     # Lire la dernière version connue
     if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" == "null" ]; then
         echo "Erreur : Impossible de récupérer la dernière version. Vérification ignorée."
